@@ -1,8 +1,15 @@
 import React, { useState } from "react";
+import { IoMdClose } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { backendUrl } from "../util/util";
+import toast from "react-hot-toast";
+
 // import axios from "axios";
 
 export default function AuthForm() {
   const [isSignup, setIsSignup] = useState(false);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -13,18 +20,54 @@ export default function AuthForm() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(isSignup ? "Signup Data:" : "Login Data:", formData);
-    alert(`${isSignup ? "Signup" : "Login"} Successful!`);
+    if (isSignup) {
+      try {
+        const res = await axios.post(` ${backendUrl}/user/register`, {
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+        });
+        toast.success(res.data.message);
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      try {
+        const res = await axios.post(
+          ` ${backendUrl}/user/login`,
+          {
+            email: formData.email,
+            password: formData.password,
+          },
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        localStorage.setItem("authToken", res.data);
+        toast.success(res.data.message);
+        navigate("/");
+      } catch (err) {
+        console.log(err);
+      }
+    }
   };
 
   return (
     <div
       className={`p-8 rounded-2xl w-96 py-20 space-y-6 border border-gray-300  bg-white shadow-2xl transition-all duration-500 transform ease-in-out ${
-        isSignup ? "translate-y-0 opacity-100" : "translate-y-0 opacity-100"
-      } slide-in-form`}
+        isSignup ? "translate-y-0 opacity-0" : "translate-y-0 "
+      } slide-in-form bg-transparent fixed z-20`}
     >
+      <IoMdClose
+        className="absolute right-5 top-5 text-2xl text-gray-500 cursor-pointer hover:bg-gray-200 rounded-3xl"
+        onClick={() => navigate("/")}
+      />
+
       <h2 className="text-3xl font-semibold mb-8 text-center text-gray-800">
         {isSignup ? "Sign Up" : "Log In"}
       </h2>
