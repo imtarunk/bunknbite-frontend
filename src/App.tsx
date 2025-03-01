@@ -1,10 +1,12 @@
 import "./App.css";
-import AuthForm from "./components/auth";
+// import AuthForm from "./components/auth";
+import LandingPage from "./pages/landpage";
 
 function App() {
   return (
     <div>
-      <AuthForm />
+      {/* LandingPage */}
+      <LandingPage />
     </div>
   );
 }
