@@ -9,7 +9,7 @@ const Navbar = () => {
           "opacity 0.25s linear, height 0.56s cubic-bezier(0.52, 0.16, 0.24, 1)",
       }}
     >
-      <div className="flex justify-center items-center space-x-2">
+      <div className="flex justify-center items-center space-x-2 rounded-2xl p-2 hover:bg-gray-400">
         <DownloadApp />
         <p>Get the App</p>
       </div>
