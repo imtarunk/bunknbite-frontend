@@ -4,10 +4,9 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { backendUrl } from "../util/util";
 import toast from "react-hot-toast";
+import { LoginProp } from "@/types/types";
 
-// import axios from "axios";
-
-export default function AuthForm() {
+const AuthForm: React.FC<LoginProp> = ({ isLogin, setLogin }) => {
   const [isSignup, setIsSignup] = useState(false);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -49,8 +48,11 @@ export default function AuthForm() {
           }
         );
         localStorage.setItem("authToken", res.data);
-        toast.success(res.data.message);
-        navigate("/");
+        if (res?.status === 200) {
+          toast.success(res.data.message);
+          setLogin(false);
+          navigate("/");
+        }
       } catch (err) {
         console.log(err);
       }
@@ -65,7 +67,7 @@ export default function AuthForm() {
     >
       <IoMdClose
         className="absolute right-5 top-5 text-2xl text-gray-500 cursor-pointer hover:bg-gray-200 rounded-3xl"
-        onClick={() => navigate("/")}
+        onClick={() => setLogin(!isLogin)}
       />
 
       <h2 className="text-3xl font-semibold mb-8 text-center text-gray-800">
@@ -134,4 +136,6 @@ export default function AuthForm() {
       </p>
     </div>
   );
-}
+};
+
+export default AuthForm;

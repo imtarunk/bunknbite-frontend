@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { DownloadApp } from "./icon/handPhone";
+import { LoginProp } from "../types/types";
 
-const Navbar = ({ setPage }: { setPage: (page: string) => void }) => {
+const Navbar: React.FC<LoginProp> = ({ isLogin, setLogin }) => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -26,27 +27,12 @@ const Navbar = ({ setPage }: { setPage: (page: string) => void }) => {
         <p>Get the App</p>
       </div>
       <div className="flex space-x-10">
+        <a className="hover:underline cursor-pointer">Explore</a>
+        <a className="hover:underline cursor-pointer">Plane</a>
+        <a className="hover:underline cursor-pointer">About Us</a>
         <a
           className="hover:underline cursor-pointer"
-          onClick={() => setPage("explore")}
-        >
-          Explore
-        </a>
-        <a
-          className="hover:underline cursor-pointer"
-          onClick={() => setPage("plane")}
-        >
-          Plane
-        </a>
-        <a
-          className="hover:underline cursor-pointer"
-          onClick={() => setPage("about")}
-        >
-          About Us
-        </a>
-        <a
-          className="hover:underline cursor-pointer"
-          onClick={() => setPage("login")}
+          onClick={() => setLogin(!isLogin)}
         >
           Login
         </a>

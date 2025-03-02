@@ -2,21 +2,22 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import LandingPage from "./pages/landpage";
 import Navbar from "./components/navbar";
-import { useState } from "react";
 import { Toaster } from "react-hot-toast";
 import AboutPage from "./pages/about";
-
-type PageType = "explore" | "plane" | "about" | "login";
+import { useState } from "react";
 
 function App() {
-  const [page, setPage] = useState<PageType>("explore");
+  const [isLogin, setLogin] = useState(false);
 
   return (
     <div>
-      <Navbar setPage={setPage} />
+      <Navbar isLogin={isLogin} setLogin={setLogin} />
       <Router>
         <Routes>
-          <Route path="/" element={<LandingPage page={page} />} />
+          <Route
+            path="/"
+            element={<LandingPage isLogin={isLogin} setLogin={setLogin} />}
+          />
           <Route path="/about" element={<AboutPage />} />
         </Routes>
       </Router>
