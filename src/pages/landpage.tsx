@@ -3,12 +3,11 @@ import TrendingCard from "../components/CustomCard";
 import CardDemo from "../components/cards-demo-1";
 import Hero from "../components/heroElement";
 
-const LandingPage = ({
-  page,
-}: {
+type LandingPageProps = {
   page: string;
-  setPage: (value: string) => void;
-}) => {
+};
+
+const LandingPage: React.FC<LandingPageProps> = ({ page }) => {
   const imgUrl = [
     "https://images.pexels.com/photos/699953/pexels-photo-699953.jpeg?cs=srgb&dl=pexels-xmtnguyen-699953.jpg&fm=jpg",
     "https://png.pngtree.com/thumb_back/fh260/background/20220721/pngtree-spicy-paprika-infused-ramen-on-a-wooden-board-with-rustic-vibes-photo-image_32828502.jpg",

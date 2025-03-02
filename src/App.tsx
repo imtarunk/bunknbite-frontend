@@ -4,6 +4,7 @@ import LandingPage from "./pages/landpage";
 import Navbar from "./components/navbar";
 import { useState } from "react";
 import { Toaster } from "react-hot-toast";
+import AboutPage from "./pages/about";
 
 type PageType = "explore" | "plane" | "about" | "login";
 
@@ -16,6 +17,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<LandingPage page={page} />} />
+          <Route path="/about" element={<AboutPage />} />
         </Routes>
       </Router>
       <Toaster />
