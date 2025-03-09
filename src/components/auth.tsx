@@ -10,11 +10,17 @@ const AuthForm: React.FC<LoginProp> = ({ isLogin, setLogin }) => {
   const [isSignup, setIsSignup] = useState(false);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    name: "",
+    phone: "",
     email: "",
     password: "",
   });
+  const [isAdmin, setAdmin] = useState("user");
+  const [isChecked, setIsChecked] = useState(false);
 
+  const checkAdmin = () => {
+    setIsChecked((prev) => !prev);
+    setAdmin((prev) => (prev === "user" ? "vender" : "user"));
+  };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -23,8 +29,8 @@ const AuthForm: React.FC<LoginProp> = ({ isLogin, setLogin }) => {
     e.preventDefault();
     if (isSignup) {
       try {
-        const res = await axios.post(` ${backendUrl}/user/register`, {
-          name: formData.name,
+        const res = await axios.post(`${backendUrl}/${isAdmin}/register`, {
+          phone: formData.phone,
           email: formData.email,
           password: formData.password,
         });
@@ -35,7 +41,7 @@ const AuthForm: React.FC<LoginProp> = ({ isLogin, setLogin }) => {
     } else {
       try {
         const res = await axios.post(
-          ` ${backendUrl}/user/login`,
+          `${backendUrl}/${isAdmin}/login`,
           {
             email: formData.email,
             password: formData.password,
@@ -51,7 +57,7 @@ const AuthForm: React.FC<LoginProp> = ({ isLogin, setLogin }) => {
         if (res?.status === 200) {
           toast.success(res.data.message);
           setLogin(false);
-          navigate("/");
+          navigate("/dashboard");
         }
       } catch (err) {
         console.log(err);
@@ -77,13 +83,13 @@ const AuthForm: React.FC<LoginProp> = ({ isLogin, setLogin }) => {
         {isSignup && (
           <div className="transition-opacity duration-300">
             <label className="block text-sm font-medium text-gray-700">
-              Name
+              Phone
             </label>
             <input
               type="text"
-              name="name"
-              placeholder="Enter your name"
-              value={formData.name}
+              name="phone"
+              placeholder="Enter your Phone"
+              value={formData.phone}
               onChange={handleChange}
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 p-3 transition-transform duration-300 focus:scale-105"
               required
@@ -125,6 +131,18 @@ const AuthForm: React.FC<LoginProp> = ({ isLogin, setLogin }) => {
           {isSignup ? "Sign Up" : "Log In"}
         </button>
       </form>
+      <div className="flex items-center gap-2">
+        <input
+          type="checkbox"
+          id="adminCheckbox"
+          checked={isChecked}
+          onChange={checkAdmin}
+          className="cursor-pointer w-5 h-5"
+        />
+        <label htmlFor="adminCheckbox" className="cursor-pointer">
+          Set as Vendor Admin
+        </label>
+      </div>
       <p className="text-center text-sm text-gray-600 mt-6">
         {isSignup ? "Already have an account?" : "Don't have an account?"}{" "}
         <button

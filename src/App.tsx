@@ -5,6 +5,7 @@ import Navbar from "./components/navbar";
 import { Toaster } from "react-hot-toast";
 import AboutPage from "./pages/about";
 import { useState } from "react";
+import AdminDashboard from "./pages/adminPage";
 
 function App() {
   const [isLogin, setLogin] = useState(false);
@@ -19,6 +20,7 @@ function App() {
             element={<LandingPage isLogin={isLogin} setLogin={setLogin} />}
           />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/dashboard" element={<AdminDashboard />} />
         </Routes>
       </Router>
       <Toaster />
